@@ -16,7 +16,7 @@ import Builder from './pages/Builder.jsx';
 import Templates from './pages/Templates.jsx';
 
 // Import components
-import PrivateRoute from './components/Auth/PrivateRoute.jsx';
+import PrivateRoute from './components/Auth/PrivateRoutes.jsx';
 import { loadUser } from './redux/slices/authSlice.js';
 
 // Import styles

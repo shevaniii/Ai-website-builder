@@ -1,3 +1,4 @@
+// Imports
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -27,7 +28,6 @@ import {
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useDrop } from 'react-dnd';
 
 import ComponentLibrary from '../components/builder/ComponentLibrary.jsx';
 import Canvas from '../components/builder/Canvas.jsx';
@@ -39,22 +39,25 @@ import {
   undo,
   redo,
   togglePreviewMode,
-  updateSettings,
-} from '../redux/slices/builderSlice';
+  updateCanvasSettings
+} from '../redux/slices/builderSlice'; // ✅ removed updateSettings and canvasSettings
 
 const DRAWER_WIDTH = 280;
 
 const Builder = () => {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+
   const { 
     components, 
     selectedComponent, 
-    settings, 
     previewMode, 
-    saving 
-  } = useSelector(state => state.builder);
-  
+    saving, 
+    canvas 
+  } = useSelector(state => state.builder); // ✅ Added canvas here
+
+  const canvasSettings = canvas.canvasSettings; // ✅ Get settings
+
   const [viewportSize, setViewportSize] = useState('desktop');
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(true);
   const [rightDrawerOpen, setRightDrawerOpen] = useState(true);
@@ -68,7 +71,7 @@ const Builder = () => {
 
   const handleSave = () => {
     // Implement save functionality
-    console.log('Saving project...', { components, settings });
+    console.log('Saving project...', { components, canvasSettings });
   };
 
   const handleExport = () => {
@@ -78,7 +81,7 @@ const Builder = () => {
 
   return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      {/* Left Sidebar - Component Library */}
+      {/* Left Sidebar */}
       <Drawer
         variant="persistent"
         anchor="left"
@@ -102,7 +105,7 @@ const Builder = () => {
         </Box>
       </Drawer>
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Top Toolbar */}
         <Paper elevation={1} sx={{ zIndex: 1 }}>
@@ -115,9 +118,9 @@ const Builder = () => {
                 <Redo />
               </IconButton>
             </Box>
-            
+
             <Divider orientation="vertical" flexItem sx={{ mr: 2 }} />
-            
+
             <Box sx={{ display: 'flex', gap: 1, mr: 2 }}>
               {Object.entries(viewportSizes).map(([size, config]) => {
                 const IconComponent = config.icon;
@@ -132,9 +135,9 @@ const Builder = () => {
                 );
               })}
             </Box>
-            
+
             <Box sx={{ flexGrow: 1 }} />
-            
+
             <Box sx={{ display: 'flex', gap: 1 }}>
               <Button
                 variant="outlined"
@@ -186,7 +189,7 @@ const Builder = () => {
         </Box>
       </Box>
 
-      {/* Right Sidebar - Properties Panel */}
+      {/* Right Sidebar */}
       <Drawer
         variant="persistent"
         anchor="right"
@@ -210,9 +213,9 @@ const Builder = () => {
             selectedComponent={selectedComponent}
             components={components}
           />
-          
+
           <Divider sx={{ my: 2 }} />
-          
+
           <Typography variant="h6" gutterBottom>
             Settings
           </Typography>
@@ -224,17 +227,19 @@ const Builder = () => {
               <FormControlLabel
                 control={
                   <Switch
-                    checked={settings.theme === 'dark'}
-                    onChange={(e) => dispatch(updateSettings({ 
-                      theme: e.target.checked ? 'dark' : 'light' 
-                    }))}
+                    checked={canvasSettings?.theme === 'dark'}
+                    onChange={(e) =>
+                      dispatch(updateCanvasSettings({
+                        theme: e.target.checked ? 'dark' : 'light',
+                      }))
+                    }
                   />
                 }
                 label="Dark Mode"
               />
             </AccordionDetails>
           </Accordion>
-          
+
           <Button
             fullWidth
             variant="outlined"
@@ -253,4 +258,3 @@ const Builder = () => {
 };
 
 export default Builder;
-
