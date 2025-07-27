@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Typography, Button, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { deleteComponent, updateComponent } from '../../redux/slices/builderSlice';
+import { deleteComponent, updateComponent } from '../../redux/slices/builderSlice.js';
 
 const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
   const dispatch = useDispatch();

@@ -36,7 +36,7 @@ import {
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDrop } from 'react-dnd';
+// import { useDrop } from 'react-dnd';
 
 import ComponentLibrary from '../components/builder/ComponentLibrary';
 import Canvas from '../components/builder/Canvas';

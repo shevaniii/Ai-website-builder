@@ -3,8 +3,8 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { addComponent } from '../../redux/slices/builderSlice';
-import BuilderComponent from './BuilderComponent';
+import { addComponent } from '../../redux/slices/builderSlice.js';
+import BuilderComponent from './BuilderComponent.jsx';
 
 const Canvas = ({ components, selectedComponent, previewMode, onSelectComponent }) => {
   const dispatch = useDispatch();

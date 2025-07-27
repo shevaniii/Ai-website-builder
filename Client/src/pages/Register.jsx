@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { registerUser, clearError } from '../redux/slices/authSlice';
+import { registerUser, clearError } from '../redux/slices/authSlice.js';
 
 const Register = () => {
   const dispatch = useDispatch();

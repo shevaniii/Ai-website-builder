@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { ExpandMore, ColorLens } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { updateComponent } from '../../redux/slices/builderSlice';
+import { updateComponent } from '../../redux/slices/builderSlice.js';
 
 const PropertyPanel = ({ selectedComponent, components }) => {
   const dispatch = useDispatch();
