@@ -166,4 +166,11 @@ export const {
   resetBuilder,
 } = builderSlice.actions;
 
+// Export aliases for compatibility with existing components
+export const addComponent = addElement;
+export const deleteComponent = removeElement;
+export const updateComponent = updateElement;
+export const selectComponent = selectElement;
+export const updateSettings = updateCanvasSettings;
+
 export default builderSlice.reducer;

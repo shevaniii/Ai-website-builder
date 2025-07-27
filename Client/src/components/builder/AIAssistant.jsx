@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { Send, AutoAwesome } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { addComponent } from '../../redux/slices/builderSlice';
+import { addComponent } from '../../redux/slices/builderSlice.js';
 
 const AIAssistant = ({ open, onClose }) => {
   const dispatch = useDispatch();
