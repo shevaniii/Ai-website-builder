@@ -1,104 +1,82 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { Provider, useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 // Import store
 import store from './redux/store';
 
-// Import pages
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Builder from './pages/Builder';
-import Templates from './pages/Templates';
-import Projects from './pages/Projects';
+// Import pages (make sure these files exist or are renamed to .jsx)
+import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Builder from './pages/Builder.jsx';
+import Templates from './pages/Templates.jsx';
 
 // Import components
-import Navbar from './components/Layout/Navbar';
-import Footer from './components/Layout/Footer';
-import PrivateRoute from './components/Auth/PrivateRoute';
-import LoadingSpinner from './components/UI/LoadingSpinner';
-
-// Import hooks
-import { useAuth } from './hooks/useAuth';
+import PrivateRoute from './components/Auth/PrivateRoute.jsx';
+import { loadUser } from './redux/slices/authSlice.js';
 
 // Import styles
-import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
-function App() {
-  const { isLoading } = useAuth();
+// App Content Component (inside Provider)
+function AppContent() {
+  const dispatch = useDispatch();
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  useEffect(() => {
+    // Load user if token exists
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(loadUser());
+    }
+  }, [dispatch]);
 
   return (
-    <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
-        <Router>
-          <div className="App">
-            <Navbar />
-            <main className="main-content">
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/templates" element={<Templates />} />
+    <DndProvider backend={HTML5Backend}>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/templates" element={<Templates />} />
 
-                {/* Protected Routes */}
-                <Route 
-                  path="/dashboard" 
-                  element={
-                    <PrivateRoute>
-                      <Dashboard />
-                    </PrivateRoute>
-                  } 
-                />
-                <Route 
-                  path="/projects" 
-                  element={
-                    <PrivateRoute>
-                      <Projects />
-                    </PrivateRoute>
-                  } 
-                />
-                <Route 
-                  path="/builder/:projectId?" 
-                  element={
-                    <PrivateRoute>
-                      <Builder />
-                    </PrivateRoute>
-                  } 
-                />
-
-                {/* Redirect all other routes to home */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </main>
-            <Footer />
-            
-            {/* Toast Notifications */}
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
+            {/* Protected Routes */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              } 
             />
-          </div>
-        </Router>
-      </DndProvider>
+            <Route 
+              path="/builder/:projectId?" 
+              element={
+                <PrivateRoute>
+                  <Builder />
+                </PrivateRoute>
+              } 
+            />
+
+            {/* Redirect all other routes to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </DndProvider>
+  );
+}
+
+// Main App Component
+function App() {
+  return (
+    <Provider store={store}>
+      <AppContent />
     </Provider>
   );
 }

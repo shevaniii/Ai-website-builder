@@ -38,10 +38,10 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // import { useDrop } from 'react-dnd';
 
-import ComponentLibrary from '../components/builder/ComponentLibrary';
-import Canvas from '../components/builder/Canvas';
-import PropertyPanel from '../components/builder/PropertyPanel';
-import AIAssistant from '../components/builder/AIAssistant';
+import ComponentLibrary from '../components/builder/ComponentLibrary.jsx';
+import Canvas from '../components/builder/Canvas.jsx';
+import PropertyPanel from '../components/builder/PropertyPanel.jsx';
+import AIAssistant from '../components/builder/AIAssistant.jsx';
 import {
   addComponent,
   selectComponent,
