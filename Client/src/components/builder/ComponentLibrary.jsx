@@ -1,5 +1,7 @@
 // client/src/components/builder/ComponentLibrary.js
 import React from 'react';
+import SmartButtonIcon from '@mui/icons-material/SmartButton';
+
 import {
   List,
   ListItem,
@@ -7,6 +9,7 @@ import {
   ListItemText,
   Typography,
   Box,
+  Button,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -14,7 +17,6 @@ import {
 import {
   TextFields,
   Image,
-  Button as ButtonIcon,
   ViewColumn,
   ExpandMore,
 } from '@mui/icons-material';
@@ -24,7 +26,7 @@ const componentCategories = {
   'Basic': [
     { type: 'text', label: 'Text', icon: TextFields },
     { type: 'heading', label: 'Heading', icon: TextFields },
-    { type: 'button', label: 'Button', icon: ButtonIcon },
+    { type: 'button', label: 'Button', icon: SmartButtonIcon },
     { type: 'image', label: 'Image', icon: Image },
   ],
   'Layout': [

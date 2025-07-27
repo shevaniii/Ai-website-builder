@@ -5,10 +5,9 @@ const { auth } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
-
-// Register
+// register a new user
 router.post('/register', [
-  body('username').isLength({ min: 3 }).trim().escape(),
+  body('name').isLength({ min: 3 }).trim().escape(),
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 6 })
 ], async (req, res) => {
@@ -18,22 +17,22 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }]
-    });
+      $or: [{ email }, { name }]
+    });     
 
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = new User({ username, email, password });
+    const user = new User({ name, email, password });
     await user.save();
 
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET || 'fallback-secret',
+      process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -46,6 +45,7 @@ router.post('/register', [
     res.status(500).json({ message: error.message });
   }
 });
+
 // Login
 router.post('/login', [
   body('email').isEmail().normalizeEmail(),

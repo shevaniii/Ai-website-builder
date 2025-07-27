@@ -8,11 +8,6 @@ import {
   Typography,
   Drawer,
   Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  TextField,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -28,11 +23,7 @@ import {
   Smartphone,
   Tablet,
   Computer,
-  ExpandMore,
-  TextFields,
-  Image,
-  Button as ButtonIcon,
-  ViewColumn,
+  ExpandMore
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
