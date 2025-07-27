@@ -1,0 +1,33 @@
+{
+  "name": "mern-website-builder",
+  "version": "1.0.0",
+  "description": "Full-stack MERN website builder with drag-and-drop functionality and AI assistance",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "start": "cd server && npm start",
+    "install-deps": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "mern",
+    "website-builder",
+    "drag-and-drop",
+    "react",
+    "nodejs",
+    "mongodb",
+    "ai-assistant"
+  ],
+  "author": "Shivani giri",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
