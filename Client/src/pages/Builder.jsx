@@ -40,7 +40,7 @@ import {
   redo,
   togglePreviewMode,
   updateCanvasSettings
-} from '../redux/slices/builderSlice'; // ✅ removed updateSettings and canvasSettings
+} from '../redux/slices/builderSlice';
 
 const DRAWER_WIDTH = 280;
 
@@ -49,14 +49,15 @@ const Builder = () => {
   const dispatch = useDispatch();
 
   const { 
-    components, 
-    selectedComponent, 
-    previewMode, 
-    saving, 
-    canvas 
-  } = useSelector(state => state.builder); // ✅ Added canvas here
+    canvas,
+    isPreviewMode
+  } = useSelector(state => state.builder);
 
-  const canvasSettings = canvas.canvasSettings; // ✅ Get settings
+  // Extract the correct data from the Redux state
+  const components = canvas.elements || [];
+  const selectedComponent = canvas.selectedElement;
+  const previewMode = isPreviewMode;
+  const canvasSettings = canvas.canvasSettings;
 
   const [viewportSize, setViewportSize] = useState('desktop');
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(true);
@@ -69,9 +70,20 @@ const Builder = () => {
     desktop: { width: '100%', icon: Computer },
   };
 
-  const handleSave = () => {
-    // Implement save functionality
-    console.log('Saving project...', { components, canvasSettings });
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      // Implement save functionality
+      console.log('Saving project...', { components, canvasSettings });
+      // Add actual save logic here
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+    } catch (error) {
+      console.error('Save failed:', error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleExport = () => {

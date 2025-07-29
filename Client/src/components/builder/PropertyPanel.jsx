@@ -18,7 +18,7 @@ import { ExpandMore, ColorLens } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { updateComponent } from '../../redux/slices/builderSlice.js';
 
-const PropertyPanel = ({ selectedComponent, components }) => {
+const PropertyPanel = ({ selectedComponent, components = [] }) => {
   const dispatch = useDispatch();
   const component = components.find(c => c.id === selectedComponent);
 
@@ -27,8 +27,8 @@ const PropertyPanel = ({ selectedComponent, components }) => {
       dispatch(updateComponent({
         id: component.id,
         updates: {
-          props: {
-            ...component.props,
+          properties: {
+            ...(component.properties || component.props || {}),
             [property]: value,
           },
         },
@@ -42,7 +42,7 @@ const PropertyPanel = ({ selectedComponent, components }) => {
         id: component.id,
         updates: {
           styles: {
-            ...component.styles,
+            ...(component.styles || {}),
             [property]: value,
           },
         },
@@ -59,6 +59,9 @@ const PropertyPanel = ({ selectedComponent, components }) => {
   }
 
   const renderPropertiesForType = () => {
+    // Handle both 'props' and 'properties' for backward compatibility
+    const componentProps = component.properties || component.props || {};
+    
     switch (component.type) {
       case 'text':
       case 'heading':
@@ -67,7 +70,7 @@ const PropertyPanel = ({ selectedComponent, components }) => {
             <TextField
               fullWidth
               label="Content"
-              value={component.props.content || ''}
+              value={componentProps.content || ''}
               onChange={(e) => handlePropertyChange('content', e.target.value)}
               multiline={component.type === 'text'}
               rows={component.type === 'text' ? 3 : 1}
@@ -77,7 +80,7 @@ const PropertyPanel = ({ selectedComponent, components }) => {
               <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel>Heading Level</InputLabel>
                 <Select
-                  value={component.props.level || 'h1'}
+                  value={componentProps.level || 'h1'}
                   onChange={(e) => handlePropertyChange('level', e.target.value)}
                 >
                   <MenuItem value="h1">H1</MenuItem>
@@ -98,14 +101,14 @@ const PropertyPanel = ({ selectedComponent, components }) => {
             <TextField
               fullWidth
               label="Button Text"
-              value={component.props.text || ''}
+              value={componentProps.text || ''}
               onChange={(e) => handlePropertyChange('text', e.target.value)}
               sx={{ mb: 2 }}
             />
             <FormControl fullWidth sx={{ mb: 2 }}>
               <InputLabel>Variant</InputLabel>
               <Select
-                value={component.props.variant || 'contained'}
+                                  value={componentProps.variant || 'contained'}
                 onChange={(e) => handlePropertyChange('variant', e.target.value)}
               >
                 <MenuItem value="contained">Contained</MenuItem>
@@ -122,14 +125,14 @@ const PropertyPanel = ({ selectedComponent, components }) => {
             <TextField
               fullWidth
               label="Image URL"
-              value={component.props.src || ''}
+              value={componentProps.src || ''}
               onChange={(e) => handlePropertyChange('src', e.target.value)}
               sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
               label="Alt Text"
-              value={component.props.alt || ''}
+              value={componentProps.alt || ''}
               onChange={(e) => handlePropertyChange('alt', e.target.value)}
               sx={{ mb: 2 }}
             />

@@ -14,10 +14,13 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
   };
 
   const renderComponent = () => {
+    // Handle both 'props' and 'properties' for backward compatibility
+    const componentProps = component.properties || component.props || {};
+    
     const commonStyles = {
       position: 'absolute',
-      left: component.position.x,
-      top: component.position.y,
+      left: component.position?.x || 0,
+      top: component.position?.y || 0,
       minWidth: '100px',
       minHeight: '30px',
       border: isSelected && !previewMode ? '2px solid #1976d2' : '1px solid transparent',
@@ -34,7 +37,7 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
               if (!previewMode) onSelect();
             }}
           >
-            {component.props.content || 'Sample text'}
+            {componentProps.content || 'Sample text'}
             {isSelected && !previewMode && (
               <IconButton
                 size="small"
@@ -48,7 +51,7 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
         );
 
       case 'heading':
-        const HeadingComponent = component.props.level || 'h1';
+        const HeadingComponent = componentProps.level || 'h1';
         return (
           <Box
             component={HeadingComponent}
@@ -58,7 +61,7 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
               if (!previewMode) onSelect();
             }}
           >
-            {component.props.content || 'Sample Heading'}
+            {componentProps.content || 'Sample Heading'}
             {isSelected && !previewMode && (
               <IconButton
                 size="small"
@@ -80,8 +83,8 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
               if (!previewMode) onSelect();
             }}
           >
-            <Button variant={component.props.variant || 'contained'}>
-              {component.props.text || 'Click Me'}
+            <Button variant={componentProps.variant || 'contained'}>
+              {componentProps.text || 'Click Me'}
             </Button>
             {isSelected && !previewMode && (
               <IconButton
@@ -105,8 +108,8 @@ const BuilderComponent = ({ component, isSelected, previewMode, onSelect }) => {
             }}
           >
             <img
-              src={component.props.src || 'https://via.placeholder.com/300x200'}
-              alt={component.props.alt || 'Sample Image'}
+              src={componentProps.src || 'https://via.placeholder.com/300x200'}
+              alt={componentProps.alt || 'Sample Image'}
               style={{ width: '100%', height: 'auto', display: 'block' }}
             />
             {isSelected && !previewMode && (
