@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addComponent } from '../../redux/slices/builderSlice.js';
 import BuilderComponent from './BuilderComponent.jsx';
 
-const Canvas = ({ components, selectedComponent, previewMode, onSelectComponent }) => {
+const Canvas = ({ components = [], selectedComponent, previewMode, onSelectComponent }) => {
   const dispatch = useDispatch();
 
   const [{ isOver }, drop] = useDrop({
@@ -24,7 +24,7 @@ const Canvas = ({ components, selectedComponent, previewMode, onSelectComponent 
         dispatch(addComponent({
           type: item.type,
           position,
-          props: getDefaultProps(item.type),
+          properties: getDefaultProps(item.type),
         }));
       }
     },
